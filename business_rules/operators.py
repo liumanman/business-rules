@@ -1,4 +1,5 @@
 import inspect
+import jmespath
 import re
 from functools import wraps
 from .six import string_types, integer_types
@@ -56,6 +57,26 @@ def type_operator(input_type, label=None,
 
 
 @export_type
+class JmesPathType(BaseType):
+    name = "jmespath"
+
+    def _assert_valid_value_and_cast(self, value):
+        value = value or ""
+        if not (isinstance(value, dict) or isinstance(value, string_types)):
+            raise AssertionError("{0} is not a valid input type for JmesPath.".
+                                 format(value))
+        return value
+
+    @type_operator(FIELD_TEXT)
+    def is_true(self, other_string):
+        return jmespath.search(other_string, self.value)
+
+    @type_operator(FIELD_TEXT)
+    def is_false(self, other_string):
+        return not jmespath.search(other_string, self.value)
+
+
+@export_type
 class StringType(BaseType):
 
     name = "string"
@@ -76,6 +97,14 @@ class StringType(BaseType):
         return self.value.lower() == other_string.lower()
 
     @type_operator(FIELD_TEXT)
+    def not_equal_to(self, other_string):
+        return self.value != other_string
+
+    @type_operator(FIELD_TEXT, label="Not Equal To (case insensitive)")
+    def not_equal_to_case_insensitive(self, other_string):
+        return self.value.lower() != other_string.lower()
+
+    @type_operator(FIELD_TEXT)
     def starts_with(self, other_string):
         return self.value.startswith(other_string)
 
@@ -90,6 +119,10 @@ class StringType(BaseType):
     @type_operator(FIELD_TEXT)
     def matches_regex(self, regex):
         return re.search(regex, self.value)
+
+    @type_operator(FIELD_NO_INPUT)
+    def empty(self):
+        return not bool(self.value)
 
     @type_operator(FIELD_NO_INPUT)
     def non_empty(self):
@@ -111,6 +144,8 @@ class NumericType(BaseType):
             return Decimal(value)
         if isinstance(value, Decimal):
             return value
+        if isinstance(value, string_types):
+            return Decimal(value)
         else:
             raise AssertionError("{0} is not a valid numeric type.".
                                  format(value))
@@ -142,7 +177,7 @@ class BooleanType(BaseType):
     name = "boolean"
 
     def _assert_valid_value_and_cast(self, value):
-        if type(value) != bool:
+        if not isinstance(value, bool):
             raise AssertionError("{0} is not a valid boolean type".
                                  format(value))
         return value

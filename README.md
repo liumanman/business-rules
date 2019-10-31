@@ -1,8 +1,6 @@
 business-rules
 ==============
 
-[![Build Status](https://travis-ci.org/venmo/business-rules.svg?branch=master)](https://travis-ci.org/venmo/business-rules)
-
 As a software system grows in complexity and usage, it can become burdensome if
 every change to the logic/behavior of the system also requires you to write and
 deploy new code. The goal of this business rules engine is to provide a simple
@@ -17,6 +15,12 @@ a particular sequence of events.
 <p align="center">
     <img src="http://cdn.memegenerator.net/instances/400x/36514579.jpg" />
 </p>
+
+
+### Changes since fork
+0. Added logical NOT operators
+0. validation now checks if isinstance(dict) so OrderedDict will pass validation
+0. Fixed bug in validation logic. If actions have no known attribute it now raises an AssertionError.
 
 ## Usage
 
@@ -247,11 +251,13 @@ Note: to compare floating point equality we just check that the difference is le
 `@string_rule_variable` operators:
 
 * `equal_to`
+* `not_equal_to`
 * `starts_with`
 * `ends_with`
 * `contains`
 * `matches_regex`
 * `non_empty`
+* `empty`
 
 **boolean** - a True or False value.
 
