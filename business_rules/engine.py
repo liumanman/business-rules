@@ -50,7 +50,7 @@ def check_condition(condition, defined_variables):
     variables, values, and the comparison operator. The defined_variables
     object must have a variable defined for any variables in this condition.
     """
-    name, op, value = condition['name'], condition['operator'], condition['value']
+    name, op, value = condition['name'], condition['operator'], condition.get('value')
     operator_type = _get_variable_value(defined_variables, name)
     return _do_operator_comparison(operator_type, op, value)
 
