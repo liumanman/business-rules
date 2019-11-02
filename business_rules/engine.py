@@ -16,7 +16,10 @@ def run_all(rule_list,
 
 def run(rule, defined_variables, defined_actions):
     conditions, actions = rule['conditions'], rule['actions']
-    rule_triggered = check_conditions_recursively(conditions, defined_variables)
+    if not conditions.get('all') and not conditions.get('any'):
+        rule_triggered = True
+    else:
+        rule_triggered = check_conditions_recursively(conditions, defined_variables)
     if rule_triggered:
         do_actions(actions, defined_actions)
         return True
