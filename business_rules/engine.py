@@ -12,6 +12,7 @@ def run_all(rule_list, defined_variables, defined_actions, stop_on_first_trigger
                 return [result]
             else:
                 return_results.append(result)
+    return return_results
 
 
 def run(rule, defined_variables, defined_actions):
