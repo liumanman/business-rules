@@ -4,13 +4,14 @@ from .fields import FIELD_NO_INPUT
 def run_all(rule_list, defined_variables, defined_actions, stop_on_first_trigger=False):
 
     rule_was_triggered = False
+    return_results = []
     for rule in rule_list:
         result = run(rule, defined_variables, defined_actions)
         if result:
             if stop_on_first_trigger:
-                return result
+                return [result]
             else:
-                yield result
+                return_results.append(result)
 
 
 def run(rule, defined_variables, defined_actions):
