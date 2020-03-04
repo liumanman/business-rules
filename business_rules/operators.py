@@ -205,7 +205,7 @@ class SelectType(BaseType):
 
     def _assert_valid_value_and_cast(self, value):
         if not hasattr(value, "__iter__"):
-            raise AssertionError("{0} is not a valid select type".format(value))
+            value = [value]
         return value
 
     @staticmethod
