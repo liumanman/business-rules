@@ -204,7 +204,7 @@ class SelectType(BaseType):
     name = "select"
 
     def _assert_valid_value_and_cast(self, value):
-        if not hasattr(value, "__iter__"):
+        if not isinstance(value, list):
             value = [value]
         return value
 
