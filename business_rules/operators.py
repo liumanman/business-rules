@@ -238,10 +238,8 @@ class SelectMultipleType(BaseType):
     name = "select_multiple"
 
     def _assert_valid_value_and_cast(self, value):
-        if not hasattr(value, "__iter__"):
-            raise AssertionError(
-                "{0} is not a valid select multiple type".format(value)
-            )
+        if not isinstance(value, list):
+            value = [value]
         return value
 
     @type_operator(FIELD_SELECT_MULTIPLE)
