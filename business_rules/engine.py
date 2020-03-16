@@ -5,7 +5,7 @@ def run_all(rule_list, defined_variables, defined_actions, stop_on_first_trigger
     return_results = []
     for rule in rule_list:
         result = run(rule, defined_variables, defined_actions)
-        if result:
+        if result.get('condition'):
             if stop_on_first_trigger:
                 return [result]
             else:
