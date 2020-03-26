@@ -26,6 +26,7 @@ class BaseVariables(object):
                 "label": m[1].label,
                 "field_type": m[1].field_type.name,
                 "options": m[1].options,
+                "params": m[1].params,
             }
             for m in methods
             if getattr(m[1], "is_rule_variable", False)
@@ -47,6 +48,7 @@ def rule_variable(field_type, label=None, options=None):
         func.is_rule_variable = True
         func.label = label or fn_name_to_pretty_label(func.__name__)
         func.options = options
+        func.params = [ { "label": fn_name_to_pretty_label(p), "name": p, "fieldType": None } for p in func.__code__.co_varnames[1:] ]
         return func
 
     return wrapper
