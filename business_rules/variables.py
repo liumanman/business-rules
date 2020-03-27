@@ -48,7 +48,7 @@ def rule_variable(field_type, label=None, options=None):
         func.is_rule_variable = True
         func.label = label or fn_name_to_pretty_label(func.__name__)
         func.options = options
-        func.params = [ { "label": fn_name_to_pretty_label(p), "name": p, "fieldType": None } for p in func.__code__.co_varnames[1:] ]
+        func.params = [ { "label": fn_name_to_pretty_label(p), "name": p, "fieldType": None } for p in inspect.getfullargspec(func).args[1:] ]
         return func
 
     return wrapper
