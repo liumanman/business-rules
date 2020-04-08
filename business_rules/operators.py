@@ -123,7 +123,7 @@ class StringType(BaseType):
         
     @type_operator(FIELD_TEXT, label="Contains (case insensitive)")
     def contains(self, other_string):
-        return other_string.lower() in (self.value and self.value.lower())
+        return self.value.lower() == other_string.lower()
 
     @type_operator(FIELD_TEXT)
     def matches_regex(self, regex):
