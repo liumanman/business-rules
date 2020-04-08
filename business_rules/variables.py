@@ -66,20 +66,20 @@ def numeric_rule_variable(label=None, params=None):
 
 
 def string_rule_variable(label=None, params=None):
-    return _rule_variable_wrapper(StringType, label)
+    return _rule_variable_wrapper(StringType, label, params)
 
 
-def boolean_rule_variable(label=None):
-    return _rule_variable_wrapper(BooleanType, label)
+def boolean_rule_variable(label=None, params=None):
+    return _rule_variable_wrapper(BooleanType, label, params)
 
 
-def select_rule_variable(label=None, options=None):
-    return rule_variable(SelectType, label=label, options=options)
+def select_rule_variable(label=None, options=None, params=None):
+    return rule_variable(SelectType, label=label, options=options, params=params)
 
 
-def select_multiple_rule_variable(label=None, options=None):
-    return rule_variable(SelectMultipleType, label=label, options=options)
+def select_multiple_rule_variable(label=None, options=None, params=None):
+    return rule_variable(SelectMultipleType, label=label, options=options, params=params)
 
 
-def jmespath_rule_variable(label=None, options=None):
-    return rule_variable(JmesPathType, label=label, options=options)
+def jmespath_rule_variable(label=None, options=None, params=None):
+    return rule_variable(JmesPathType, label=label, options=options, params=params)
