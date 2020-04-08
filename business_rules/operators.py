@@ -120,10 +120,10 @@ class StringType(BaseType):
     @type_operator(FIELD_TEXT)
     def ends_with(self, other_string):
         return self.value.endswith(other_string)
-
-    @type_operator(FIELD_TEXT)
+        
+    @type_operator(FIELD_TEXT, label="Contains (case insensitive)")
     def contains(self, other_string):
-        return other_string in self.value
+        return other_string.lower() in self.value.lower()
 
     @type_operator(FIELD_TEXT)
     def matches_regex(self, regex):
